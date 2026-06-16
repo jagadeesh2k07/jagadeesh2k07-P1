@@ -290,3 +290,11 @@ navItems.forEach(item => {
         this.classList.add('active');
     });
 });
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        const navLinks = document.querySelector('.nav-links');
+        if (navLinks && window.innerWidth <= 768) {
+            navLinks.style.display = 'none';
+        }
+    });
+});

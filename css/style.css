@@ -912,3 +912,79 @@ section, footer {
         justify-content: center;
     }
 }
+/* ================================================================
+   MOBILE NAV DROPDOWN + FINE-TUNED PHONE SIZING
+   Everything above this line is untouched. These rules only ADD
+   behaviour for narrow screens: they turn the hamburger menu into
+   a proper full-width dropdown that sits below the header (instead
+   of overlapping it in a single overflowing row), shrink its text,
+   and slightly scale down a few hero/heading sizes on small phones.
+   ================================================================ */
+
+@media (max-width: 768px) {
+    .navbar {
+        position: relative;
+        padding: 16px 6%;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        margin: 0;
+        gap: 0;
+        background-color: var(--bg-primary);
+        border-bottom: 1px solid var(--border-light);
+        box-shadow: 0 16px 28px rgba(0, 0, 0, 0.5);
+        padding: 8px 6% 16px;
+    }
+
+    .nav-links li {
+        width: 100%;
+        list-style: none;
+    }
+
+    .nav-links li a {
+        display: block;
+        width: 100%;
+        padding: 14px 0;
+        font-size: 0.95rem;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .nav-links li:last-child a {
+        border-bottom: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 14px 5%;
+    }
+
+    .nav-links li a {
+        font-size: 0.9rem;
+        padding: 12px 0;
+    }
+
+    .hero-text h2 {
+        font-size: 2rem;
+    }
+
+    .hero-p, .hero-text p {
+        font-size: 0.98rem;
+    }
+
+    .section-heading {
+        font-size: 1.5rem;
+    }
+
+    .profile-img {
+        width: 220px;
+        height: 220px;
+    }
+}
