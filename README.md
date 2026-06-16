@@ -3,7 +3,7 @@
 A premium, single-page professional dashboard and software development portfolio custom-engineered to showcase my academic milestones, technical toolkits, and project work. This repository serves as the central hub for my digital engineering presence and demonstrates my commitment to clean, high-performance web architecture.
 
 ## 🚀 Live Production Deployment
-🌐 **[Explore the Live Portfolio Platform](https://my-portfolio-3110.vercel.app/)**
+🌐 **[Explore the Live Portfolio Platform](https://portfolio-lilac-nine-74.vercel.app/)**
 
 ---
 
