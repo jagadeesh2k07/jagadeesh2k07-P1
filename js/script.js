@@ -2,6 +2,12 @@ const topBtn = document.getElementById('topBtn');
 const sections = document.querySelectorAll('section, header');
 const navLi = document.querySelectorAll('.nav-links a');
 
+// ── Mobile drawer-nav state/elements ────────────────────────────────
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const navBackdrop  = document.getElementById('navBackdrop');
+let menuOpen = false;
+let pendingMenuOpen = false;
+
 // ── Typing cursor effect ──────────────────────────────────────────
 const words = ["Aspiring Full Stack Developer", "Passionate Web Developer", "CS Student @ JNTU Kakinada"];
 let wordIndex = 0;
@@ -102,32 +108,57 @@ revealEls.forEach(el => revealObserver.observe(el));
 
 
 
-// ── Hamburger lock: only usable after profile pic has settled into navbar ──
-let navUnlocked = false;
-let pendingMenuOpen = false; // set when user taps hamburger while on hero
+function openMenu() {
+    if (!hamburgerBtn) return;
+    menuOpen = true;
+    hamburgerBtn.classList.add('open');
+    const navLinksEl = document.querySelector('.nav-links');
+    if (navLinksEl) {
+        navLinksEl.classList.remove('open');
+        void navLinksEl.offsetWidth; // restart the scan-line/item animations each time it opens
+        navLinksEl.classList.add('open');
+    }
+    if (navBackdrop) navBackdrop.classList.add('open');
+}
+
+function closeMenu() {
+    if (!hamburgerBtn) return;
+    menuOpen = false;
+    hamburgerBtn.classList.remove('open');
+    const navLinksEl = document.querySelector('.nav-links');
+    if (navLinksEl) navLinksEl.classList.remove('open');
+    if (navBackdrop) navBackdrop.classList.remove('open');
+}
 
 function toggleMenu() {
-    const navLinks = document.querySelector('.nav-links');
-    const hamburger = document.querySelector('.hamburger');
+    if (window.innerWidth > 768) return; // desktop nav doesn't use the drawer
 
-    if (!navUnlocked) {
-        // Scroll photo into navbar, flag to auto-open once it lands
+    if (!document.body.classList.contains('scrolled')) {
+        // Locked: the photo hasn't finished morphing into the logo yet.
+        // Nudge the page down so it does, then open once it has.
         pendingMenuOpen = true;
         window.scrollTo({ top: 300, behavior: 'smooth' });
-        hamburger.classList.add('locked-pulse');
-        setTimeout(() => hamburger.classList.remove('locked-pulse'), 700);
         return;
     }
 
-    const isOpen = hamburger.classList.contains('open');
-    if (isOpen) {
-        hamburger.classList.remove('open');
-        navLinks.style.display = 'none';
-    } else {
-        hamburger.classList.add('open');
-        navLinks.style.display = 'flex';
-    }
+    menuOpen ? closeMenu() : openMenu();
 }
+
+if (navBackdrop) {
+    navBackdrop.addEventListener('click', closeMenu);
+}
+
+navLi.forEach(link => {
+    link.addEventListener('click', () => {
+        navLi.forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+        closeMenu();
+    });
+});
+
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) closeMenu();
+});
 
 function filterProjects(category) {
     const items = document.querySelectorAll('.project-item');
@@ -243,39 +274,20 @@ function animateImg() {
     profileImg.style.boxShadow = `0 0 0 ${ringSize.toFixed(1)}px rgba(251,146,60,${ringAlpha.toFixed(2)}), 0 4px ${shadowBlur.toFixed(0)}px rgba(0,0,0,${shadowAlpha.toFixed(2)})`;
 
     // LinkedIn click only when mostly in nav
-    const hamburger = document.querySelector('.hamburger');
+    const wasUnlocked = document.body.classList.contains('scrolled');
     if (p > 0.85) {
         profileImg.onclick = redirectToLinkedIn;
         profileImg.style.cursor = 'pointer';
         document.body.classList.add('scrolled');
-        // Unlock hamburger — profile pic has landed in the navbar
-        if (!navUnlocked) {
-            navUnlocked = true;
-            hamburger && hamburger.classList.remove('nav-locked');
-            hamburger && hamburger.classList.add('nav-unlocked');
-            // If user tapped hamburger while on hero, auto-open after photo settles
-            if (pendingMenuOpen) {
-                pendingMenuOpen = false;
-                setTimeout(() => {
-                    const navLinks = document.querySelector('.nav-links');
-                    const hbg = document.querySelector('.hamburger');
-                    if (hbg) hbg.classList.add('open');
-                    if (navLinks) navLinks.style.display = 'flex';
-                }, 180); // slight pause so user sees photo land first
-            }
+        if (!wasUnlocked && pendingMenuOpen) {
+            pendingMenuOpen = false;
+            setTimeout(openMenu, 160);
         }
     } else {
         profileImg.onclick = null;
         profileImg.style.cursor = 'default';
         document.body.classList.remove('scrolled');
-        // Lock hamburger — user scrolled back to hero
-        if (navUnlocked) {
-            navUnlocked = false;
-            const navLinks = document.querySelector('.nav-links');
-            hamburger && hamburger.classList.remove('open', 'nav-unlocked');
-            hamburger && hamburger.classList.add('nav-locked');
-            if (navLinks) navLinks.style.display = 'none';
-        }
+        if (wasUnlocked && menuOpen) closeMenu();
     }
 
     rafId = requestAnimationFrame(animateImg);
@@ -297,9 +309,11 @@ window.addEventListener('scroll', () => {
         }
     });
     navLi.forEach(a => {
-        a.style.color = a.getAttribute('href') === `#${current}`
+        const isCurrent = a.getAttribute('href') === `#${current}`;
+        a.style.color = isCurrent
             ? 'var(--text-main)'
             : 'var(--text-muted)';
+        a.classList.toggle('active', isCurrent);
     });
 });
 
@@ -331,15 +345,5 @@ navItems.forEach(item => {
     item.addEventListener('click', function() {
         navItems.forEach(i => i.classList.remove('active'));
         this.classList.add('active');
-    });
-});
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        const navLinks = document.querySelector('.nav-links');
-        const hamburger = document.querySelector('.hamburger');
-        if (navLinks && window.innerWidth <= 768) {
-            navLinks.style.display = 'none';
-            hamburger && hamburger.classList.remove('open');
-        }
     });
 });
