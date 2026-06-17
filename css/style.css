@@ -99,12 +99,6 @@ header {
     transition: color 0.25s ease;
 }
 
-.nav-links li i {
-    margin-right: 8px; 
-    font-size: 0.9rem; 
-    color: var(--text-muted); 
-}
-
 .nav-links li a {
     text-decoration: none;
     color: var(--text-main);
@@ -140,126 +134,18 @@ header {
     width: 100%;
 }
 
-/* ── Hamburger — scatter → distort → reform as ✕ ─────────────── */
 .hamburger {
     display: none;
     cursor: pointer;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: rgba(251, 146, 60, 0.06);
-    border: 1px solid rgba(251, 146, 60, 0.18);
-    position: relative;
-    overflow: visible;
-    transition: background 0.3s ease, border-color 0.3s ease,
-                box-shadow 0.3s ease;
-    z-index: 10001;
-    -webkit-tap-highlight-color: transparent;
+    gap: 6px;
 }
 
-.hamburger:hover {
-    background: rgba(251, 146, 60, 0.13);
-    border-color: var(--accent-color);
-    box-shadow: 0 0 12px rgba(251, 146, 60, 0.2);
-}
-
-/* Ripple ring that fires on open */
-.hamburger::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 10px;
-    border: 2px solid var(--accent-color);
-    opacity: 0;
-    transform: scale(1);
-    pointer-events: none;
-}
-.hamburger.open::after {
-    animation: hbg-ring 0.5s ease-out 0.25s forwards;
-}
-@keyframes hbg-ring {
-    0%   { opacity: 0.9; transform: scale(1); }
-    100% { opacity: 0;   transform: scale(1.7); }
-}
-
-/* ── The three bars ── */
 .hamburger span {
     display: block;
+    width: 24px;
     height: 2px;
-    border-radius: 2px;
     background-color: var(--text-main);
-    position: absolute;
-    left: 50%;
-    transform-origin: center center;
-    /* smooth return (closing) */
-    transition:
-        width     0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-        top       0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-        transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-        opacity   0.25s ease,
-        background-color 0.3s ease,
-        margin-left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* Resting positions — centred via negative margin */
-.hamburger span:nth-child(1) { width: 20px; margin-left: -10px; top: 13px; }
-.hamburger span:nth-child(2) { width: 14px; margin-left: -7px;  top: 21px; }
-.hamburger span:nth-child(3) { width: 20px; margin-left: -10px; top: 29px; }
-
-/* ── OPEN: Phase 1 — bars scatter outward with distortion ── */
-/* Bar 1 flies top-left and shrinks */
-.hamburger.open span:nth-child(1) {
-    animation: scatter-top 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards,
-               reform-top  0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
-    background-color: var(--accent-color);
-}
-/* Bar 2 blasts straight right and vanishes */
-.hamburger.open span:nth-child(2) {
-    animation: scatter-mid 0.45s ease-out forwards,
-               reform-mid  0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.32s forwards;
-    background-color: var(--accent-color);
-}
-/* Bar 3 flies bottom-right and shrinks */
-.hamburger.open span:nth-child(3) {
-    animation: scatter-bot 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards,
-               reform-bot  0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
-    background-color: var(--accent-color);
-}
-
-/* Scatter keyframes — bars explode outward */
-@keyframes scatter-top {
-    0%   { top: 13px; margin-left: -10px; width: 20px; transform: rotate(0deg) scaleX(1); opacity: 1; }
-    40%  { top: 2px;  margin-left: -18px; width: 8px;  transform: rotate(-30deg) scaleX(0.5); opacity: 0.6; }
-    100% { top: 2px;  margin-left: -18px; width: 8px;  transform: rotate(-30deg) scaleX(0.5); opacity: 0; }
-}
-@keyframes scatter-mid {
-    0%   { top: 21px; margin-left: -7px; width: 14px; transform: scaleX(1); opacity: 1; }
-    35%  { top: 21px; margin-left: 10px; width: 5px;  transform: scaleX(0.3); opacity: 0.4; }
-    100% { top: 21px; margin-left: 10px; width: 5px;  transform: scaleX(0.3); opacity: 0; }
-}
-@keyframes scatter-bot {
-    0%   { top: 29px; margin-left: -10px; width: 20px; transform: rotate(0deg) scaleX(1); opacity: 1; }
-    40%  { top: 38px; margin-left: 4px;   width: 8px;  transform: rotate(30deg) scaleX(0.5); opacity: 0.6; }
-    100% { top: 38px; margin-left: 4px;   width: 8px;  transform: rotate(30deg) scaleX(0.5); opacity: 0; }
-}
-
-/* Reform keyframes — snap back to centre as ✕ */
-@keyframes reform-top {
-    0%   { top: 2px;  margin-left: -18px; width: 8px;  transform: rotate(-30deg) scaleX(0.5); opacity: 0; }
-    60%  { opacity: 1; }
-    100% { top: 21px; margin-left: -10px; width: 20px; transform: rotate(45deg)  scaleX(1);   opacity: 1; }
-}
-@keyframes reform-mid {
-    0%   { top: 21px; margin-left: 10px; width: 5px;  transform: scaleX(0.3); opacity: 0; }
-    100% { top: 21px; margin-left: 10px; width: 5px;  transform: scaleX(0);   opacity: 0; }
-}
-@keyframes reform-bot {
-    0%   { top: 38px; margin-left: 4px;   width: 8px;  transform: rotate(30deg) scaleX(0.5); opacity: 0; }
-    60%  { opacity: 1; }
-    100% { top: 21px; margin-left: -10px; width: 20px; transform: rotate(-45deg) scaleX(1);  opacity: 1; }
 }
 
 .section-container {
@@ -1027,233 +913,236 @@ section, footer {
     }
 }
 /* ================================================================
-   MOBILE NAV DROPDOWN + FINE-TUNED PHONE SIZING
-   Everything above this line is untouched. These rules only ADD
-   behaviour for narrow screens: they turn the hamburger menu into
-   a proper full-width dropdown that sits below the header (instead
-   of overlapping it in a single overflowing row), shrink its text,
-   and slightly scale down a few hero/heading sizes on small phones.
+   LOCKED HAMBURGER MORPH + ICON-GRID DRAWER (mobile)
+   Everything above this line is untouched. The hamburger stays
+   dimmed/disabled until the profile photo has finished morphing
+   into the navbar logo (body.scrolled) — so the drawer never has
+   anything behind it to overlap. Opening it morphs the 3 bars
+   into an X and slides a glowing icon-grid panel down below the
+   header. Desktop (>768px) is unaffected: icons stay hidden and
+   the original horizontal text links render exactly as before.
    ================================================================ */
 
+.nav-icon { display: none; }
+
 @media (max-width: 768px) {
-    .navbar {
+    .navbar { position: relative; padding: 16px 6%; }
+
+    /* ---- Hamburger button shell ---- */
+    .hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 9px;
+        background: rgba(251, 146, 60, 0.03);
+        border: 1px solid rgba(251, 146, 60, 0.15);
+        opacity: 0.45;
         position: relative;
-        padding: 16px 6%;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        -webkit-tap-highlight-color: transparent;
+        z-index: 10001;
     }
 
-    /* ── Compact horizontal pill bar ── */
+    body.scrolled .hamburger {
+        opacity: 1;
+        background: rgba(251, 146, 60, 0.09);
+        border-color: var(--accent-color);
+        box-shadow: 0 0 12px rgba(251, 146, 60, 0.28);
+    }
+
+    .hamburger-hint {
+        position: absolute;
+        bottom: -16px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 9px;
+        color: var(--accent-color);
+        opacity: 0.8;
+        animation: bounce-hint 1.4s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    body.scrolled .hamburger-hint { display: none; }
+
+    /* ---- The 3 bars that morph into an X ---- */
+    .hamburger-icon { position: relative; width: 22px; height: 22px; }
+
+    .hamburger-icon span {
+        position: absolute;
+        display: block;
+        height: 2px;
+        border-radius: 2px;
+        background-color: rgba(255, 255, 255, 0.35);
+        transform-origin: center;
+        transition: top .3s cubic-bezier(.34,1.56,.64,1),
+                    left .3s cubic-bezier(.34,1.56,.64,1),
+                    width .3s cubic-bezier(.34,1.56,.64,1),
+                    transform .3s cubic-bezier(.34,1.56,.64,1),
+                    background .3s;
+    }
+
+    .hamburger-icon span:nth-child(1) { top: 4px;  left: 1px; width: 20px; }
+    .hamburger-icon span:nth-child(2) { top: 10px; left: 4px; width: 14px; }
+    .hamburger-icon span:nth-child(3) { top: 16px; left: 1px; width: 20px; }
+
+    body.scrolled .hamburger-icon span { background-color: var(--text-main); }
+
+    .hamburger.open .hamburger-icon span { background-color: var(--accent-color); }
+    .hamburger.open .hamburger-icon span:nth-child(1) { animation: sc-t .48s forwards, rf-t .33s .28s forwards; }
+    .hamburger.open .hamburger-icon span:nth-child(2) { animation: sc-m .4s forwards; }
+    .hamburger.open .hamburger-icon span:nth-child(3) { animation: sc-b .48s forwards, rf-b .33s .28s forwards; }
+
+    /* ---- Tap-outside backdrop ---- */
+    .nav-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 9990;
+        display: none;
+    }
+    .nav-backdrop.open { display: block; }
+
+    /* ---- Drawer panel ---- */
     .nav-links {
         position: absolute;
-        top: calc(100% + 6px);
+        top: 100%;
         left: 50%;
-        transform: translateX(-50%) scaleY(0.6);
-        transform-origin: top center;
-        width: calc(100% - 24px);
-        max-width: 420px;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        flex-wrap: nowrap;
-        margin: 0;
-        gap: 0;
-        background: rgba(10, 10, 9, 0.94);
-        backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
+        width: calc(100% - 20px);
+        max-width: 360px;
+        margin-top: 6px;
+        z-index: 9999;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-radius: 13px;
+        background: linear-gradient(180deg, rgba(18,12,6,0.98) 0%, rgba(8,6,3,0.99) 100%);
         border: 1px solid rgba(251, 146, 60, 0.22);
-        border-radius: 16px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.55),
-                    0 0 0 1px rgba(251,146,60,0.06) inset;
-        padding: 0;
-        z-index: 10000;
+        overflow: hidden;
+        transform: translateX(-50%) scaleY(0.85);
+        transform-origin: top center;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.28s ease,
-                    transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
-        overflow: hidden;
+        transition: opacity .3s ease, transform .36s cubic-bezier(.16,1,.3,1);
     }
 
-    /* Glowing top border sweep */
-    .nav-links::before {
-        content: '';
-        position: absolute;
-        top: 0; left: -100%;
-        width: 100%; height: 1px;
-        background: linear-gradient(90deg,
-            transparent, var(--accent-color), transparent);
-        transition: left 0.5s ease 0.05s;
-    }
-
-    /* Open state */
-    .nav-links[style*="flex"] {
+    .nav-links.open {
         opacity: 1;
         pointer-events: auto;
         transform: translateX(-50%) scaleY(1);
-    }
-    .nav-links[style*="flex"]::before {
-        left: 100%;
+        box-shadow: 0 0 0 1px rgba(251,146,60,0.45), 0 0 20px rgba(251,146,60,0.18), 0 12px 40px rgba(0,0,0,0.7);
     }
 
-    .nav-links li {
-        flex: 1;
-        list-style: none;
-        opacity: 0;
-        transform: translateY(6px);
-        transition: none;
-        min-width: 0;
+    .nav-links.open::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0;
+        width: 38%; height: 100%;
+        background: linear-gradient(90deg, transparent 0%, rgba(251,146,60,0.12) 50%, transparent 100%);
+        animation: scanLine .6s ease-out forwards;
+        pointer-events: none;
+        z-index: 10;
     }
 
-    /* Stagger pop-in */
-    .nav-links[style*="flex"] li {
-        opacity: 1;
-        transform: translateY(0);
-        transition: opacity 0.28s ease, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .nav-links[style*="flex"] li:nth-child(1) { transition-delay: 0.04s; }
-    .nav-links[style*="flex"] li:nth-child(2) { transition-delay: 0.08s; }
-    .nav-links[style*="flex"] li:nth-child(3) { transition-delay: 0.12s; }
-    .nav-links[style*="flex"] li:nth-child(4) { transition-delay: 0.16s; }
-    .nav-links[style*="flex"] li:nth-child(5) { transition-delay: 0.20s; }
-    .nav-links[style*="flex"] li:nth-child(6) { transition-delay: 0.24s; }
+    .nav-links li { list-style: none; border-right: 1px solid rgba(251, 146, 60, 0.07); }
+    .nav-links li:nth-child(3n) { border-right: none; }
 
     .nav-links li a {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 11px 4px;
-        font-size: 0.68rem;
-        font-weight: 600;
-        letter-spacing: 0.03em;
-        text-transform: uppercase;
-        color: rgba(255,255,255,0.65);
+        gap: 5px;
+        padding: 14px 4px;
+        color: rgba(255, 255, 255, 0.5);
         text-decoration: none;
-        border-bottom: none;
         position: relative;
-        transition: color 0.2s ease, background 0.2s ease;
-        overflow: hidden;
+        transition: color .2s, box-shadow .25s;
+    }
+
+    .nav-links li a::after { content: none; }
+
+    .nav-links.open li a { animation: navItemIn .3s cubic-bezier(.34,1.56,.64,1) both; }
+    .nav-links.open li:nth-child(1) a { animation-delay: .05s; }
+    .nav-links.open li:nth-child(2) a { animation-delay: .09s; }
+    .nav-links.open li:nth-child(3) a { animation-delay: .13s; }
+    .nav-links.open li:nth-child(4) a { animation-delay: .17s; }
+    .nav-links.open li:nth-child(5) a { animation-delay: .21s; }
+    .nav-links.open li:nth-child(6) a { animation-delay: .25s; }
+
+    .nav-icon {
+        display: block;
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        transition: transform .25s cubic-bezier(.34,1.56,.64,1), filter .25s, stroke .2s;
+    }
+
+    .nav-label {
+        font-size: 0.6rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        line-height: 1;
         white-space: nowrap;
-        width: 100%;
-        text-align: center;
+        transition: color .2s;
     }
 
-    /* Active glow under each link */
-    .nav-links li a::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%) scaleX(0);
-        width: 60%;
-        height: 2px;
-        border-radius: 2px;
-        background: var(--accent-color);
-        box-shadow: 0 0 8px var(--accent-color);
-        transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .nav-links li a:hover,
     .nav-links li a.active {
         color: var(--accent-color);
-        background: rgba(251, 146, 60, 0.07);
+        box-shadow: inset 0 -2px 0 var(--accent-color), inset 0 0 28px rgba(251, 146, 60, 0.1);
     }
+    .nav-links li a.active .nav-icon {
+        transform: scale(1.12);
+        filter: drop-shadow(0 0 5px var(--accent-color)) drop-shadow(0 0 10px rgba(251,146,60,0.5));
+    }
+    .nav-links li a.active .nav-label { font-weight: 800; text-shadow: 0 0 10px rgba(251, 146, 60, 0.8); }
+    .nav-links li a.active::before {
+        content: "";
+        position: absolute;
+        bottom: 5px; left: 50%;
+        transform: translateX(-50%);
+        width: 16px; height: 2px; border-radius: 2px;
+        background: var(--accent-color);
+        box-shadow: 0 0 8px var(--accent-color), 0 0 16px rgba(251, 146, 60, 0.5);
+    }
+}
 
-    .nav-links li a:hover::after,
-    .nav-links li a.active::after {
-        transform: translateX(-50%) scaleX(1);
-    }
-
-    /* Tap ripple */
-    .nav-links li a:active {
-        background: rgba(251, 146, 60, 0.14);
-    }
-
-    /* Dividers between items */
-    .nav-links li + li {
-        border-left: 1px solid rgba(251, 146, 60, 0.1);
-    }
-
-    .nav-links li:last-child a {
-        border-bottom: none;
-    }
+@keyframes sc-t {
+    0%   { top: 4px;  left: 1px;  width: 20px; transform: rotate(0); }
+    45%  { top: -3px; left: -4px; width: 7px;  transform: rotate(-30deg); opacity: .4; }
+    100% { top: -3px; left: -4px; width: 7px;  transform: rotate(-30deg); opacity: 0; }
+}
+@keyframes sc-m {
+    0%   { top: 10px; left: 4px;  width: 14px; opacity: 1; }
+    40%  { top: 10px; left: 15px; width: 3px;  opacity: .2; }
+    100% { opacity: 0; }
+}
+@keyframes sc-b {
+    0%   { top: 16px; left: 1px; width: 20px; transform: rotate(0); }
+    45%  { top: 23px; left: 9px; width: 7px;  transform: rotate(30deg); opacity: .4; }
+    100% { top: 23px; left: 9px; opacity: 0; }
+}
+@keyframes rf-t {
+    0%   { top: -3px; left: -4px; width: 7px;  transform: rotate(-30deg); opacity: 0; }
+    60%  { opacity: 1; }
+    100% { top: 10px; left: 1px;  width: 20px; transform: rotate(45deg); opacity: 1; }
+}
+@keyframes rf-b {
+    0%   { top: 23px; left: 9px; width: 7px;  transform: rotate(30deg); opacity: 0; }
+    60%  { opacity: 1; }
+    100% { top: 10px; left: 1px; width: 20px; transform: rotate(-45deg); opacity: 1; }
+}
+@keyframes scanLine { 0% { transform: translateX(-100%); } 100% { transform: translateX(260%); } }
+@keyframes navItemIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounce-hint {
+    0%, 100% { transform: translateX(-50%) translateY(0); opacity: .6; }
+    50% { transform: translateX(-50%) translateY(3px); opacity: 1; }
 }
 
 @media (max-width: 480px) {
-    .navbar {
-        padding: 14px 5%;
-    }
-
-    /* Keep pill nav labels small on narrow phones */
-    .nav-links li a {
-        font-size: 0.62rem;
-        padding: 10px 2px;
-    }
-
-    .hero-text h2 {
-        font-size: 2rem;
-    }
-
-    .hero-p, .hero-text p {
-        font-size: 0.98rem;
-    }
-
-    .section-heading {
-        font-size: 1.5rem;
-    }
-
-    .profile-img {
-        width: 220px;
-        height: 220px;
-    }
-}
-/* ── Hamburger lock / unlock states ─────────────────────────── */
-
-/* Default on mobile: start locked */
-@media (max-width: 768px) {
-    .hamburger {
-        /* slightly dim when locked */
-        opacity: 0.55;
-        transition: opacity 0.4s ease, background 0.3s ease,
-                    border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    /* Show a small lock tooltip hint via pseudo-element */
-    .hamburger.nav-locked::before {
-        content: '↓';
-        position: absolute;
-        bottom: -18px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 9px;
-        color: var(--accent-color);
-        opacity: 0.75;
-        pointer-events: none;
-        letter-spacing: 0;
-        animation: bounce-hint 1.4s ease-in-out infinite;
-    }
-
-    @keyframes bounce-hint {
-        0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.6; }
-        50%       { transform: translateX(-50%) translateY(3px); opacity: 1; }
-    }
-
-    /* Fully visible + glowing once unlocked */
-    .hamburger.nav-unlocked {
-        opacity: 1;
-        border-color: var(--accent-color);
-        box-shadow: 0 0 10px rgba(251, 146, 60, 0.3);
-    }
-
-    /* Pulse animation when user taps while still locked */
-    .hamburger.locked-pulse {
-        animation: locked-shake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
-    }
-
-    @keyframes locked-shake {
-        0%   { transform: scale(1)    rotate(0deg);  border-color: rgba(251,146,60,0.18); }
-        20%  { transform: scale(1.12) rotate(-6deg); border-color: var(--accent-color); box-shadow: 0 0 14px rgba(251,146,60,0.4); }
-        40%  { transform: scale(1.08) rotate(5deg);  border-color: var(--accent-color); }
-        60%  { transform: scale(1.05) rotate(-3deg); }
-        80%  { transform: scale(1.02) rotate(1deg);  }
-        100% { transform: scale(1)    rotate(0deg);  }
-    }
+    .hero-text h2 { font-size: 2rem; }
+    .hero-p, .hero-text p { font-size: 0.98rem; }
+    .section-heading { font-size: 1.5rem; }
+    .profile-img { width: 220px; height: 220px; }
 }
